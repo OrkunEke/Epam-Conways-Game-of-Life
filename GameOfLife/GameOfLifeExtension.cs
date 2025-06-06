@@ -63,8 +63,8 @@ public static class GameOfLifeExtension
         ValidateSimulateAsyncParameters(game, generations, writer);
 
         // Print initial state
-        await writer.WriteLineAsync($"Generation: {game.Generation}");
-        var grid = game.CurrentGeneration;
+        await writer!.WriteLineAsync($"Generation: {game.Generation}");
+        var grid = game!.CurrentGeneration;
         int rows = grid.GetLength(0);
         int cols = grid.GetLength(1);
 
