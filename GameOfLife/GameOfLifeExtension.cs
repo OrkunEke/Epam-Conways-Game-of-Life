@@ -60,9 +60,7 @@ public static class GameOfLifeExtension
     /// </summary>
     public static async Task SimulateAsync(this GameOfLifeParallelVersion? game, int generations, TextWriter? writer, char aliveCell, char deadCell)
     {
-        ArgumentNullException.ThrowIfNull(game);
-        ArgumentNullException.ThrowIfNull(writer);
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(generations);
+        ValidateSimulateAsyncParameters(game, generations, writer);
 
         // Print initial state
         await writer.WriteLineAsync($"Generation: {game.Generation}");
@@ -100,5 +98,12 @@ public static class GameOfLifeExtension
 
             await writer.WriteLineAsync(string.Empty);
         }
+    }
+
+    private static void ValidateSimulateAsyncParameters(GameOfLifeParallelVersion? game, int generations, TextWriter? writer)
+    {
+        ArgumentNullException.ThrowIfNull(game);
+        ArgumentNullException.ThrowIfNull(writer);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(generations);
     }
 }

@@ -7,10 +7,10 @@ namespace GameOfLife;
 public sealed class GameOfLifeSequentialVersion
 {
     // --- Fields ---
-    private readonly int rows;           // Number of rows in the grid
-    private readonly int columns;        // Number of columns in the grid
-    private bool[,] grid;                // Current state of the grid
-    private bool[,] initialGrid;         // Backup of the initial grid (for restart)
+    private readonly int rows;          // Number of rows in the grid
+    private readonly int columns;       // Number of columns in the grid
+    private readonly bool[,] initialGrid;        // Copy of the initial state (for restart)
+    private bool[,] grid;               // Current state of the game grid
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GameOfLifeSequentialVersion"/> class.
@@ -178,12 +178,10 @@ public sealed class GameOfLifeSequentialVersion
 
                 // Count if within grid and alive
                 if (neighborRow >= 0 && neighborRow < this.rows &&
-                    neighborCol >= 0 && neighborCol < this.columns)
+                    neighborCol >= 0 && neighborCol < this.columns &&
+                    this.grid[neighborRow, neighborCol])
                 {
-                    if (this.grid[neighborRow, neighborCol])
-                    {
-                        aliveCount++;
-                    }
+                    aliveCount++;
                 }
             }
         }

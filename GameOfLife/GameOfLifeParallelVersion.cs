@@ -9,8 +9,8 @@ public sealed class GameOfLifeParallelVersion
     // --- Fields ---
     private readonly int rows;          // Number of rows in the grid
     private readonly int columns;       // Number of columns in the grid
+    private readonly bool[,] initialGrid;        // Copy of the initial state (for restart)
     private bool[,] grid;               // Current state of the game grid
-    private bool[,] initialGrid;        // Copy of the initial state (for restart)
 
     // --- Constructors ---
 
@@ -122,14 +122,14 @@ public sealed class GameOfLifeParallelVersion
         var newGrid = new bool[this.rows, this.columns];
 
         // Parallelize across rows for performance boost on large grids
-        Parallel.For(0, rows, i =>
+        Parallel.For(0, this.rows, i =>
         {
-            for (int j = 0; j < columns; j++)
+            for (int j = 0; j < this.columns; j++)
             {
-                int neighbors = CountAliveNeighbors(i, j);
+                int neighbors = this.CountAliveNeighbors(i, j);
 
                 // Apply Conway's Game of Life rules
-                if (grid[i, j])
+                if (this.grid[i, j])
                 {
                     newGrid[i, j] = neighbors == 2 || neighbors == 3;
                 }
